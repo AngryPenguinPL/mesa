@@ -23,7 +23,7 @@
 # bootstrap option: Build without requiring an X server
 # (which in turn requires mesa to build)
 %bcond_without hardware
-%bcond_without gcc
+%bcond_with gcc
 %bcond_with bootstrap
 %bcond_without vdpau
 %bcond_without va
@@ -142,7 +142,7 @@
 
 Summary:	OpenGL %{opengl_ver} compatible 3D graphics library
 Name:		mesa
-Version:	17.1.10
+Version:	17.2.2
 %if "%{relc}%{git}" == ""
 Release:	1
 %else
@@ -180,9 +180,7 @@ Obsoletes:	%{name}-xorg-drivers-nouveau < %{EVRD}
 
 # https://bugs.freedesktop.org/show_bug.cgi?id=74098
 Patch1:	mesa-10.2-clang-compilefix.patch
-#if %mdvver > 3000000
-#Patch3: clover-llvm-4.0.patch
-#endif
+Patch2: libmesautil-supc++-linkage.patch
 
 # fedora patches
 Patch15: mesa-9.2-hardware-float.patch
@@ -710,7 +708,7 @@ Suggests:	%{devd3d} = %{version}-%{release}
 Requires:	%{devvulkan} = %{version}-%{release}
 
 %description common-devel
-Mesa common metapackage devel
+Mesa common metapackage devel.
 
 %prep
 %if "%{git}" != ""

@@ -1,0 +1,13 @@
+diff -Naur mesa-17.2.2/src/util/Makefile.am mesa-17.2.2.tpg/src/util/Makefile.am
+--- mesa-17.2.2/src/util/Makefile.am	2017-10-02 15:49:03.000000000 +0000
++++ mesa-17.2.2.tpg/src/util/Makefile.am	2017-10-06 20:56:51.092479002 +0000
+@@ -47,7 +47,8 @@
+ libmesautil_la_LIBADD = \
+ 	$(CLOCK_LIB) \
+ 	$(ZLIB_LIBS) \
+-	$(LIBATOMIC_LIBS)
++	$(LIBATOMIC_LIBS) -lsupc++
++
+ 
+ u_atomic_test_LDADD = libmesautil.la
+ roundeven_test_LDADD = -lm
