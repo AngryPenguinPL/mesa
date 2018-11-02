@@ -3,7 +3,7 @@
 
 # (aco) Needed for the dri drivers
 %define _disable_ld_no_undefined 1
-%define _disable_lto 1
+#define _disable_lto 1
 
 %ifarch aarch64
 %global optflags %{optflags} -fuse-ld=bfd
