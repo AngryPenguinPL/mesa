@@ -760,7 +760,7 @@ Mesa common metapackage devel.
 %setup -qn mesa-%{version}%{vsuffix}
 %endif
 sed -i -e 's,HAVE_COMPAT_SYMLINKS=yes,HAVE_COMPAT_SYMLINKS=no,g' configure.ac
-set -i -e 's|LLVM_SO_NAME=.*|LLVM_SO_NAME=LLVM|g' configure.ac
+sed -i -e 's|LLVM_SO_NAME=.*|LLVM_SO_NAME=LLVM|g' configure.ac
 %apply_patches
 
 chmod +x %{SOURCE5}
