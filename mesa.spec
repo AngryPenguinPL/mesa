@@ -186,6 +186,7 @@ Patch2:		libmesautil-supc++-linkage.patch
 
 # fedora patches
 Patch15:	mesa-9.2-hardware-float.patch
+Patch16:	mesa-om-gcc-try.patch
 
 # Instructions to setup your repository clone
 # git://git.freedesktop.org/git/mesa/mesa
