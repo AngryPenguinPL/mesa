@@ -1,7 +1,7 @@
-diff -up mesa-18.2.0-rc1/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp.omv~ mesa-18.2.0-rc1/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp
---- mesa-18.2.0-rc1/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp.omv~	2018-08-05 02:25:26.740457313 +0200
-+++ mesa-18.2.0-rc1/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp	2018-08-05 02:32:22.156038196 +0200
-@@ -58,32 +58,32 @@ CallInst* MEMSET(Value *Ptr, Value *Val,
+diff -up mesa-18.2.5/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp.omv~ mesa-18.2.5/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp
+--- mesa-18.2.5/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp.omv~	2018-11-15 20:49:05.988585437 +0100
++++ mesa-18.2.5/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.hpp	2018-11-15 20:52:48.003960988 +0100
+@@ -58,22 +58,22 @@ CallInst* MEMSET(Value *Ptr, Value *Val,
  
  CallInst* MEMCOPY(Value *Dst, Value *Src, uint64_t Size, unsigned Align, bool isVolatile = false, MDNode *TBAATag = nullptr, MDNode *TBAAStructTag = nullptr, MDNode *ScopeTag = nullptr, MDNode *NoAliasTag = nullptr)
  {
@@ -13,18 +13,6 @@ diff -up mesa-18.2.0-rc1/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.h
  {
 -    return IRB()->CreateMemCpy(Dst, Src, Size, Align, isVolatile, TBAATag, TBAAStructTag, ScopeTag, NoAliasTag);
 +    return IRB()->CreateMemCpy(Dst, Align, Src, Align, Size, isVolatile, TBAATag, TBAAStructTag, ScopeTag, NoAliasTag);
- }
- 
- CallInst* ELEMENT_UNORDERED_ATOMIC_MEM_CPY(Value *Dst, Value *Src, uint64_t Size, uint32_t ElementSize, MDNode *TBAATag = nullptr, MDNode *TBAAStructTag = nullptr, MDNode *ScopeTag = nullptr, MDNode *NoAliasTag = nullptr)
- {
--    return IRB()->CreateElementUnorderedAtomicMemCpy(Dst, Src, Size, ElementSize, TBAATag, TBAAStructTag, ScopeTag, NoAliasTag);
-+    return IRB()->CreateElementUnorderedAtomicMemCpy(Dst, 0, Src, 0, Size, ElementSize, TBAATag, TBAAStructTag, ScopeTag, NoAliasTag);
- }
- 
- CallInst* ELEMENT_UNORDERED_ATOMIC_MEM_CPY(Value *Dst, Value *Src, Value *Size, uint32_t ElementSize, MDNode *TBAATag = nullptr, MDNode *TBAAStructTag = nullptr, MDNode *ScopeTag = nullptr, MDNode *NoAliasTag = nullptr)
- {
--    return IRB()->CreateElementUnorderedAtomicMemCpy(Dst, Src, Size, ElementSize, TBAATag, TBAAStructTag, ScopeTag, NoAliasTag);
-+    return IRB()->CreateElementUnorderedAtomicMemCpy(Dst, 0, Src, 0, Size, ElementSize, TBAATag, TBAAStructTag, ScopeTag, NoAliasTag);
  }
  
  CallInst* MEMMOVE(Value *Dst, Value *Src, uint64_t Size, unsigned Align, bool isVolatile = false, MDNode *TBAATag = nullptr, MDNode *ScopeTag = nullptr, MDNode *NoAliasTag = nullptr)
@@ -40,7 +28,7 @@ diff -up mesa-18.2.0-rc1/src/gallium/drivers/swr/rasterizer/jitter/gen_builder.h
  }
  
  CallInst* FADD_REDUCE(Value *Acc, Value *Src)
-@@ -988,7 +988,7 @@ Value* PTR_DIFF(Value *LHS, Value *RHS,
+@@ -978,7 +978,7 @@ Value* PTR_DIFF(Value *LHS, Value *RHS,
  
  Value* INVARIANT_GROUP_BARRIER(Value *Ptr)
  {
