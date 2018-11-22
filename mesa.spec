@@ -223,7 +223,8 @@ Patch201:	0201-revert-fix-glxinitializevisualconfigfromtags-handling.patch
 
 # (tpg) this patch is only a workaround for https://bugs.freedesktop.org/show_bug.cgi?id=93454
 # real fix is in one of millions commits in llvm git related to https://llvm.org/bugs/show_bug.cgi?id=24990
-Patch204:	mesa-11.1.0-fix-SSSE3.patch
+## why to hell this is needed?
+#Patch204:	mesa-11.1.0-fix-SSSE3.patch
 #Patch206:	mesa-11.2-arm-no-regparm.patch
 
 BuildRequires:	flex
@@ -760,7 +761,7 @@ Mesa common metapackage devel.
 %setup -qn mesa-%{version}%{vsuffix}
 %endif
 sed -i -e 's,HAVE_COMPAT_SYMLINKS=yes,HAVE_COMPAT_SYMLINKS=no,g' configure.ac
-
+set -i -e 's|LLVM_SO_NAME=.*|LLVM_SO_NAME=LLVM|g' configure.ac
 %apply_patches
 
 chmod +x %{SOURCE5}
@@ -783,12 +784,14 @@ cp -a $all build-osmesa
 %endif
 
 %build
-%if %{with gcc}
 export CC=gcc
 export CXX=g++
-%endif
-export CFLAGS="%{optflags} -fno-optimize-sibling-calls -Ofast"
-export CXXFLAGS="%{optflags} -fno-optimize-sibling-calls -Ofast"
+## hmmm ?
+#export CFLAGS="%{optflags} -fno-optimize-sibling-calls -Ofast"
+#export CXXFLAGS="%{optflags} -fno-optimize-sibling-calls -Ofast"
+
+export CFLAGS="%{optflags} -O2"
+export CXXFLAGS="%{optflags} -O2"
 
 GALLIUM_DRIVERS="swrast,virgl"
 %if %{with hardware}
@@ -827,7 +830,6 @@ GALLIUM_DRIVERS="$GALLIUM_DRIVERS,freedreno,vc4,etnaviv,pl111,imx"
 	--with-platforms=x11,drm,wayland,surfaceless \
 	--enable-gles1 \
 	--enable-gles2 \
-	--enable-gles3 \
 %if %{with opencl}
 	--enable-opencl \
 %endif
@@ -852,9 +854,8 @@ GALLIUM_DRIVERS="$GALLIUM_DRIVERS,freedreno,vc4,etnaviv,pl111,imx"
 	--enable-llvm-shared-libs \
 %else
 	--disable-llvm \
-	--with-gallium-drivers=swrast \
+	--with-gallium-drivers=swrast
 %endif
-	--enable-texture-float
 
 %if %{with osmesa}
 # Build OSMesa separately, since we want to build OSMesa without shared-glapi,
